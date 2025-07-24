@@ -2685,8 +2685,9 @@ void _glfwGetCursorPosWayland(_GLFWwindow* window, double* xpos, double* ypos)
 
 void _glfwSetCursorPosWayland(_GLFWwindow* window, double x, double y)
 {
-    _glfwInputError(GLFW_FEATURE_UNAVAILABLE,
-                    "Wayland: The platform does not support setting the cursor position");
+    window->wl.didAskForSetCursorPos = true;
+    window->wl.askedCursorPosX = x;
+    window->wl.askedCursorPosY = y;
 }
 
 void _glfwSetCursorModeWayland(_GLFWwindow* window, int mode)
@@ -2920,6 +2921,13 @@ static const struct zwp_relative_pointer_v1_listener relativePointerListener =
 static void lockedPointerHandleLocked(void* userData,
                                       struct zwp_locked_pointer_v1* lockedPointer)
 {
+    _GLFWwindow* window = userData;
+
+    if (window->wl.didAskForSetCursorPos)
+    {
+        window->wl.didAskForSetCursorPos = false;
+        zwp_locked_pointer_v1_set_cursor_position_hint(window->wl.lockedPointer, wl_fixed_from_double(window->wl.askedCursorPosX), wl_fixed_from_double(window->wl.askedCursorPosY));
+    }
 }
 
 static void lockedPointerHandleUnlocked(void* userData,

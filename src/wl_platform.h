@@ -401,6 +401,9 @@ typedef struct _GLFWwindowWayland
     uint32_t                        scalingNumerator;
     struct wp_fractional_scale_v1*  fractionalScale;
 
+    double                      askedCursorPosX, askedCursorPosY;
+    GLFWbool                     didAskForSetCursorPos;
+
     struct zwp_relative_pointer_v1* relativePointer;
     struct zwp_locked_pointer_v1*   lockedPointer;
     struct zwp_confined_pointer_v1* confinedPointer;
