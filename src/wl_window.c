@@ -2273,13 +2273,10 @@ static void textInputV3CommitString(void* data,
     _GLFWwindow* window = (_GLFWwindow*) data;
     const char* cur = text;
 
-    if (!window->callbacks.character)
-        return;
-
     while (cur && *cur)
     {
         uint32_t codepoint = _glfwDecodeUTF8(&cur);
-        window->callbacks.character((GLFWwindow*) window, codepoint);
+        _glfwInputChar(window, codepoint, 0, GLFW_TRUE);
     }
 }
 
