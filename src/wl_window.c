@@ -2674,10 +2674,7 @@ void _glfwGetWindowPosWayland(_GLFWwindow* window, int* xpos, int* ypos)
 
 void _glfwSetWindowPosWayland(_GLFWwindow* window, int xpos, int ypos)
 {
-    // A Wayland client can not set its position, so just warn
-
-    _glfwInputError(GLFW_FEATURE_UNAVAILABLE,
-                    "Wayland: The platform does not support setting the window position");
+    fprintf(stderr, "!!! Ignoring Error: Wayland: The platform does not support setting the window position\n");
 }
 
 void _glfwGetWindowSizeWayland(_GLFWwindow* window, int* width, int* height)
